@@ -21,20 +21,21 @@
                 <div class="product-info">
                     <h1> {{ product }} </h1>
                     <h2> {{ description }} </h2>
-                    
-                    <p v-if="inventory > 10">In Stock</p>
-                    <p v-else-if="inventory <= 10 && inventory > 0">Almost out of stock!</p>
-                    <p v-else>Out of stock</p>
-                    
+                                        
                     <span v-if="onSale">ON SALE NOW</span>
 
                     <ul>
                         <li v-for="detail in details">{{ detail }}</li>
                     </ul>
 
-                    <div v-for="variant in variants" :key="variant.variantID">
-                        <p>{{ variant.variantSize }}</p>
+                    <div class="size-option" v-for="variant in variants" :key="variant.variantID">
+                        <p @click="updateProduct(variant.variantInventory)">{{ variant.variantSize }}</p>
                     </div>
+
+                    <p v-if="inventory > 10">In Stock</p>
+                    <p v-else-if="inventory <= 10 && inventory > 0">Almost out of stock!</p>
+                    <p v-else-if="inventory == 0">Out of stock!</p>
+                    <p v-else>&nbsp;</p>
 
                     <div v-on:click="addToCart" class="btn--primary">Add To Cart</div>
 
