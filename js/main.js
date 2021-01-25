@@ -1,3 +1,5 @@
+Vue.config.devtools = true
+
 var app = new Vue({
 
 el: '#app',
@@ -6,7 +8,7 @@ data: {
     image: './assets/card-example.jfif',   
     description: 'birthday ting',
     link: 'http://www.sendtosay.com',
-    inventory: 10,
+    inventory: 100,
     onSale: true,
 }
 
