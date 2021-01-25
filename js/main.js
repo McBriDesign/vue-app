@@ -25,12 +25,12 @@ data: {
             variantSize: "Large",
         }
     ],
-    cart: 0,
-    methods: {
-        addToCart function () {
-            this.cart += 1
-            
-        }
+    cart: 0
+},
+methods: {
+    addToCart: function() {
+        this.cart += 1
+        
     }
 }
 
