@@ -42,7 +42,6 @@ Vue.component('product', {
                 :class="{ disabledButton: !inStock }">
                 Remove from Cart</button>
 
-            <p>Cart ( {{cart}} )</p>
 
         </div>
 
@@ -66,7 +65,7 @@ Vue.component('product', {
                 variantInventory: 0,
             },
             {
-                variantID: 0002,
+                variantID: 45452,
                 variantSize: "M",
                 variantInventory: 6,
             },
@@ -75,17 +74,16 @@ Vue.component('product', {
                 variantSize: "L",
                 variantInventory: 100,
             }
-        ],
-        cart: 0,
+        ]
         }
     },
 
     methods: {
         addToCart: function() {
-            this.cart += 1
+            this.$emit('add-to-cart', this.variants[this.selectedVariant].variantID)
         },
         removeFromCart: function() {
-            this.cart -= 1 
+            this.$emit('remove-from-cart') 
         },
         updateProduct: function (index) {
             this.selectedVariant = index
@@ -99,6 +97,17 @@ Vue.component('product', {
 })
 
 var app = new Vue({
-    el: '#app'
+    el: '#app',
+    data: {
+        cart: [],
+    },
+    methods:{
+        addCart(id) {
+            this.cart.push(id)
+        },
+        removeCart(id) {
+            this.cart.pop(id)
+        }
+    }
 })
 

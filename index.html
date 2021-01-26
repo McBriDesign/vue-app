@@ -10,7 +10,12 @@
 
 
         <div id="app">
-            <product></product>
+
+            <div class="cart">
+                <p>Cart ( {{cart.length}} )</p>
+            </div>
+
+            <product @add-to-cart="addCart" @remove-from-cart="removeCart"></product>
             <product></product>
             <product></product>
         </div>
