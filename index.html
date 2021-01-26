@@ -19,8 +19,8 @@
                 </div>
 
                 <div class="product-info">
-                    <h1> {{ product }} </h1>
-                    <h2> {{ description }} </h2>
+                    <h3> {{ product }} </h3>
+                    <h5> {{ description }} </h5>
                                         
                     <span v-if="onSale">ON SALE NOW</span>
 
@@ -28,18 +28,28 @@
                         <li v-for="detail in details">{{ detail }}</li>
                     </ul>
 
-                    <div class="size-option" v-for="variant in variants" :key="variant.variantID">
-                        <p @click="updateProduct(variant.variantInventory)">{{ variant.variantSize }}</p>
+                    <div v-for="(variant, index) in variants"
+                         :key="variant.variantID"
+                         class="size-option">
+
+                         <p @click="updateProduct(index)">{{ variant.variantSize }}</p>
                     </div>
 
-                    <p v-if="inventory > 10">In Stock</p>
-                    <p v-else-if="inventory <= 10 && inventory > 0">Almost out of stock!</p>
-                    <p v-else-if="inventory == 0">Out of stock!</p>
-                    <p v-else>&nbsp;</p>
+                    <p v-if="!inStock">Out of Stock!</p>
+                    <p v-else>In Stock</p>
 
-                    <div v-on:click="addToCart" class="btn--primary">Add To Cart</div>
+                    <button v-on:click="addToCart"
+                        :disabled="!inStock"
+                        class="btn--primary"
+                        :class="{ disabledButton: !inStock }">Add to Cart</button>
 
-                    <p>Cart({{cart}})</p>
+                    <button @click="removeFromCart"
+                        :disabled="!inStock"
+                        class="btn--secondary"
+                        :class="{ disabledButton: !inStock }">
+                        Remove from Cart</button>
+
+                    <p>Cart ( {{cart}} )</p>
 
                 </div>
 

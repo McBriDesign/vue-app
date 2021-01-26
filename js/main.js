@@ -4,27 +4,27 @@ var app = new Vue({
 
 el: '#app',
 data: {
-    product: 'Cards',
+    product: 'Friday Night Dinner - Jim & Wilson',
     image: './assets/card-example.jfif',   
-    description: 'birthday ting',
+    description: "Valentine's cards",
     link: 'http://www.sendtosay.com',
-    inventory: -1,
+    selectedVariant: 0,
     onSale: true,
     details: ["Friday Night Dinner Design", "100% recyled card", "Available in all sizes", "Customisation available" ],
     variants: [
         {
             variantID: 0001,
-            variantSize: "Small",
+            variantSize: "S",
             variantInventory: 0,
         },
         {
             variantID: 0002,
-            variantSize: "Medium",
+            variantSize: "M",
             variantInventory: 6,
         },
         {
             variantID: 0003,
-            variantSize: "Large",
+            variantSize: "L",
             variantInventory: 100,
         }
     ],
@@ -33,12 +33,19 @@ data: {
 methods: {
     addToCart: function() {
         this.cart += 1
-        
     },
-
-    updateProduct: function (variantInventory) {
-        this.inventory = variantInventory
+    removeFromCart: function() {
+        this.cart -= 1 
+    },
+    updateProduct: function (index) {
+        this.selectedVariant = index
     }
-}
+},
+
+computed:{
+    inStock() {
+        return this.variants[this.selectedVariant].variantInventory
+    }
+},
 
 })

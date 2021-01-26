@@ -2,8 +2,10 @@ body{margin:0;width:100%;font-family:Verdana,Geneva,Tahoma,sans-serif;float:left
 .product{display: flex;}
 .nav-bar{background-color:#242424;height:3em;width:100%;margin-bottom:3.5em}
 .product-img{width:35%;display:inline-block;}
-.btn--primary{width:150px;background-color:transparent;border:solid 2px #242424;color:#242424;border-radius:200px;padding:3% 0;text-align:center}
-.size-option{width:70px;border:solid 1px #242424;padding:2%;margin:2%;display:inline-block; display: inline-flex ;}
+.btn--primary{width:200px;background-color:transparent;border:solid 2px #242424;color:#242424;border-radius:200px;padding:1.5% 0;text-align:center; display: inline-flex; justify-content: center}
+.btn--secondary{width:200px;background-color:#242424;border:solid 2px #242424;color:#fff;border-radius:200px;padding:1.5% 0;text-align:center; display: inline-flex; justify-content: center}
+.disabledButton{background-color:#cacaca;border:solid 2px #cacaca;color:#a5a5a5;}
+.size-option{width:50px;border:solid 2px #242424;padding:0;margin:1.5%; display: inline-flex;}
 .size-option p{width:100%; text-align:center;}
 .product-img img{max-width:380px; display: block; margin: 4% auto}
 .product-info{margin-left:5%;display:inline-block;width:60%}
