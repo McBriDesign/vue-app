@@ -42,8 +42,23 @@ Vue.component('product', {
                 :class="{ disabledButton: !inStock }">
                 Remove from Cart</button>
 
+        </div>
+
+        <div class="product-reviews">
+            <h3>Reviews</h3>
+            <p v-if="!reviews.length">There are no reviews.</p>
+            <ul>
+                <li v-for="review in reviews">
+                    <p>{{ review.name }}</p>
+                    <p>Location: {{ review.name }}</p>
+                    <p>Review: {{ review.review }}</p>
+                    <p>Rating: {{ review.rating }}</p>
+                </li>
+            </ul>
 
         </div>
+
+        <product-review @review-submitted="addReview"></product-review>
 
     </div>
     `,
@@ -74,7 +89,8 @@ Vue.component('product', {
                 variantSize: "L",
                 variantInventory: 100,
             }
-        ]
+        ],
+        reviews: [],
         }
     },
 
@@ -87,11 +103,91 @@ Vue.component('product', {
         },
         updateProduct: function (index) {
             this.selectedVariant = index
+        },
+        addReview(productReview) {
+            this.reviews.push(productReview)
         }
     },
     computed:{
         inStock() {
             return this.variants[this.selectedVariant].variantInventory
+        }
+    }
+})
+
+Vue.component('product-review', {
+    template: `
+    <form class="review-form" @submit.prevent="onSubmit">
+
+        <b v-if="errors.length">Please enter details in all required fields:</b>
+        <ul>
+        <li v-for="error in errors">{{ error }}</li>
+        </ul>
+    
+        <p>
+        <label for="name">Name:</label>
+        <input id="name" v-model="name">
+        </p>
+
+        <p>
+        <label for="location">Location:</label>
+        <input id="location" v-model="location">
+        </p>
+
+        <p>
+        <label for="review">Review:</label>
+        <textarea id="review" v-model="review"></textarea>
+        </p>
+
+        <p>
+        <label for="rating">Rating:</label>
+        <select id=rating v-model.number=rating>
+            <option>5</option>
+            <option>4</option>
+            <option>3</option>
+            <option>2</option>
+            <option>1</option>
+        </select>
+        </p>
+
+        <p>
+        <input type="submit" value="send it">
+        </p>
+
+    </form>
+    `,
+    data() {
+        return {
+            name: null,
+            location: null,
+            review: null,
+            rating: null,
+            errors: []
+        }
+    },
+    methods: {
+        onSubmit(){
+            if (this.name && this.location && this.review && this.rating) {
+
+                let productReview = {
+                    name: this.name,
+                    location: this.location,
+                    review: this.review,
+                    rating: this.rating
+                }
+                this.$emit('review-submitted', productReview)
+                this.name = null
+                this.location = null
+                this.review = null
+                this.rating = null
+            }
+            else {
+                if(!this.name) this.errors.push("Name Required.")
+                if(!this.location) this.errors.push("Location Required.")
+                if(!this.review) this.errors.push("Review Required.")
+                if(!this.rating) this.errors.push("Rating Required.")
+            }
+            
         }
     }
 })
