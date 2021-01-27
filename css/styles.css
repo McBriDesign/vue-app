@@ -9,3 +9,4 @@ body{margin:0;width:100%;font-family:Verdana,Geneva,Tahoma,sans-serif;float:left
 .size-option p{width:100%; text-align:center;}
 .product-img img{max-width:380px; display: block; margin: 4% auto}
 .product-info{margin-left:5%;display:inline-block;width:60%}
+.activeTab{color:cornflowerblue; text-decoration: underline;}

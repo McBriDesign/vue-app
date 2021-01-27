@@ -1,5 +1,7 @@
 Vue.config.devtools = true
 
+var eventBus  = new Vue ()
+
 Vue.component('product', {
 
     template: `
@@ -44,21 +46,7 @@ Vue.component('product', {
 
         </div>
 
-        <div class="product-reviews">
-            <h3>Reviews</h3>
-            <p v-if="!reviews.length">There are no reviews.</p>
-            <ul>
-                <li v-for="review in reviews">
-                    <p>{{ review.name }}</p>
-                    <p>Location: {{ review.name }}</p>
-                    <p>Review: {{ review.review }}</p>
-                    <p>Rating: {{ review.rating }}</p>
-                </li>
-            </ul>
-
-        </div>
-
-        <product-review @review-submitted="addReview"></product-review>
+        <product-tabs :reviews="reviews"></product-tabs>
 
     </div>
     `,
@@ -90,7 +78,7 @@ Vue.component('product', {
                 variantInventory: 100,
             }
         ],
-        reviews: [],
+        reviews: []
         }
     },
 
@@ -104,14 +92,16 @@ Vue.component('product', {
         updateProduct: function (index) {
             this.selectedVariant = index
         },
-        addReview(productReview) {
-            this.reviews.push(productReview)
-        }
     },
     computed:{
         inStock() {
             return this.variants[this.selectedVariant].variantInventory
         }
+    },
+    mounted() {
+        eventBus.$on('review-submitted', productReview => {
+            this.reviews.push(productReview)
+        })
     }
 })
 
@@ -175,7 +165,7 @@ Vue.component('product-review', {
                     review: this.review,
                     rating: this.rating
                 }
-                this.$emit('review-submitted', productReview)
+                eventBus.$emit('review-submitted', productReview)
                 this.name = null
                 this.location = null
                 this.review = null
@@ -190,6 +180,47 @@ Vue.component('product-review', {
             
         }
     }
+})
+
+Vue.component('product-tabs', {
+    props: {
+        reviews: {
+            type: Array,
+            required: false
+        }
+    },
+    template: `
+        <div>
+            <span class="tab"
+                    :class="{ activeTab: selectedTab === tab}"
+                    v-for="(tab, index) in tabs"
+                    :key="index"
+                    @click="selectedTab = tab">
+                    {{ tab }}</span>
+
+                    <div v-show="selectedTab === 'Reviews'" class="product-reviews">
+                        <p v-if="!reviews.length">There are no reviews.</p>
+                        <ul>
+                            <li v-for="review in reviews">
+                                <p>{{ review.name }}</p>
+                                <p>Location: {{ review.name }}</p>
+                                <p>Review: {{ review.review }}</p>
+                                <p>Rating: {{ review.rating }}</p>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <product-review v-show="selectedTab === 'Make a Review'"></product-review>
+
+        </div>
+    
+    `,
+    data () {
+        return {
+            tabs: ['Reviews', 'Make a Review'],
+            selectedTab: 'Reviews'
+        }
+    },
 })
 
 var app = new Vue({
